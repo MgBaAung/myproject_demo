@@ -32,7 +32,7 @@ class AuthController extends GetxController {
     }
   }
 
-   Future<void> login({required String name, required String password}) async {
+  Future<void> login({required String name, required String password}) async {
     try {
       final token = await _authRepository.login(name, password);
       await SharePref.setToken(token);
@@ -43,14 +43,19 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void>register({required String name, required String password}) async {
+  Future<void> register(
+      {required String name, required String password}) async {
     try {
-      final token = await _authRepository.login(name, password);
-      await SharePref.setToken(token);
+      await _authRepository.register(name, password);
       authorize();
     } on DioError catch (e) {
       errorMessage(e.message);
       unAuthorize();
     }
+  }
+
+  Future<void> logout() async {
+    await SharePref.clear();
+    unAuthorize();
   }
 }
