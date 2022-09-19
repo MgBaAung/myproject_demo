@@ -1,17 +1,51 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
 
-/// A utility class that holds constants for colors used values
-/// throughout the entire app.
-/// This class has no constructor and all variables are `static`.
-@immutable
+import 'package:flutter/material.dart';
+import 'package:myproject/src/helper/constants/color_extension.dart';
+
 class AppColors {
   const AppColors._();
 
   /// The main purplish color used for theming the app.
-  static const Color primaryColor = Color(0x006962e7);
+  static Color primaryColor = HexColor.fromHex("#6962E7");
+  static MaterialColor primarySwatch = generateMaterialColor(primaryColor);
 
-  /// The color value for orange color in the app.
-  static const Color lightPrimaryColor = Color.fromARGB(250, 186, 67, 255);
+  static Color hintTextColor = HexColor.fromHex("#B2B2CE");
 
+  static Color labelTextColor = HexColor.fromHex("#5A596A");
 
+  static Color textFieldBorderColor = HexColor.fromHex("#C4C4DB");
+
+  static MaterialColor generateMaterialColor(Color color) {
+    return MaterialColor(color.value, {
+      50: tintColor(color, 0.9),
+      100: tintColor(color, 0.8),
+      200: tintColor(color, 0.6),
+      300: tintColor(color, 0.4),
+      400: tintColor(color, 0.2),
+      500: color,
+      600: shadeColor(color, 0.1),
+      700: shadeColor(color, 0.2),
+      800: shadeColor(color, 0.3),
+      900: shadeColor(color, 0.4),
+    });
+  }
+
+  static int tintValue(int value, double factor) =>
+      max(0, min((value + ((255 - value) * factor)).round(), 255));
+
+  static Color tintColor(Color color, double factor) => Color.fromRGBO(
+      tintValue(color.red, factor),
+      tintValue(color.green, factor),
+      tintValue(color.blue, factor),
+      1);
+
+  static int shadeValue(int value, double factor) =>
+      max(0, min(value - (value * factor).round(), 255));
+
+  static Color shadeColor(Color color, double factor) => Color.fromRGBO(
+      shadeValue(color.red, factor),
+      shadeValue(color.green, factor),
+      shadeValue(color.blue, factor),
+      1);
 }

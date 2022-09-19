@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 //config
 import 'package:myproject/src/features/app_startup/app_startup_screen.dart';
@@ -14,13 +15,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     const title = 'Assignment';
     const showDebugBanner = false;
-    final app = MaterialApp(
-      title: title,
-      debugShowCheckedModeBanner: showDebugBanner,
-      color: AppColors.primaryColor,
-      theme: AppThemes.mainTheme,
-      home: AppStartupScreen(),
-    );
-    return app;
+    return ScreenUtilInit(
+        designSize: const Size(375, 812),
+      
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return MaterialApp(
+            title: title,
+            
+            debugShowCheckedModeBanner: showDebugBanner,
+            color: AppColors.primaryColor,
+            theme: AppThemes.mainTheme,
+            home: AppStartupScreen(),
+          );
+        });
   }
 }
