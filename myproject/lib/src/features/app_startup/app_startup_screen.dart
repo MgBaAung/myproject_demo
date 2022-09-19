@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 //lottie
 import 'package:lottie/lottie.dart';
-import 'package:myproject/src/features/app_startup/welcome_screen.dart';
 import 'package:myproject/src/features/auth/screen/login_screen.dart';
 import 'package:myproject/src/features/view_screen/view_all_product.dart';
 import 'package:myproject/src/helper/constants/app_utils.dart';
