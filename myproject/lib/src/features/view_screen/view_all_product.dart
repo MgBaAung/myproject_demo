@@ -33,29 +33,30 @@ class _ViewAllProductState extends State<ViewAllProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {},
-            icon: Image.asset(AppAssets.menuIcon),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                authcontroller.logout();
-              },
-              icon: Image.asset(
-                AppAssets.cartIcon,
-                color: Colors.black,
-              ),
-            )
-          ]),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              leading: IconButton(
+                onPressed: () {},
+                icon: Image.asset(AppAssets.menuIcon),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    authcontroller.logout();
+                  },
+                  icon: Image.asset(
+                    AppAssets.cartIcon,
+                    color: Colors.black,
+                  ),
+                )
+              ],
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              sliver: SliverToBoxAdapter(
                 child: RichText(
                   text: TextSpan(
                     children: [
@@ -77,7 +78,9 @@ class _ViewAllProductState extends State<ViewAllProduct> {
                   ),
                 ),
               ),
-              Container(
+            ),
+            SliverToBoxAdapter(
+              child: Container(
                 height: 41.h,
                 color: AppColors.secondaryColor,
                 child: Row(
@@ -96,27 +99,34 @@ class _ViewAllProductState extends State<ViewAllProduct> {
                   ],
                 ),
               ),
-              Obx(
-                () {
-                  final errorMessage = productController.errorMessage.value;
-                  final isloading = productController.isLoading.value;
-                  final productList = productController.productList.value;
+            ),
+            Obx(
+              () {
+                final errorMessage = productController.errorMessage.value;
+                final isloading = productController.isLoading.value;
+                final productList = productController.productList.value;
 
-                  if (errorMessage.isNotEmpty) {
-                    return Center(
+                if (errorMessage.isNotEmpty) {
+                  return SliverFillRemaining(
+                    child: Center(
                       child: Text(errorMessage),
-                    );
-                  } else if (isloading) {
-                    return const Center(
+                    ),
+                  );
+                } else if (isloading) {
+                  return const SliverFillRemaining(
+                    child: Center(
                       child: CircularProgressIndicator(),
-                    );
-                  } else if (productList.isEmpty) {
-                    return const Center(
+                    ),
+                  );
+                } else if (productList.isEmpty) {
+                  return const SliverFillRemaining(
+                    child: Center(
                       child: Text("No Proucts!"),
-                    );
-                  } else {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
+                    ),
+                  );
+                } else {
+                  return SliverToBoxAdapter(
+                    child: Column(
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 19.0.h),
@@ -133,6 +143,7 @@ class _ViewAllProductState extends State<ViewAllProduct> {
                         ),
                         GridView.builder(
                           shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
@@ -140,6 +151,7 @@ class _ViewAllProductState extends State<ViewAllProduct> {
                                   mainAxisSpacing: 16.w,
                                   crossAxisSpacing: 16.w),
                           itemCount: productList.length,
+                          padding: const EdgeInsets.only(bottom: 40),
                           itemBuilder: (context, index) {
                             return ProductBoxWidget(
                               product: productList[index],
@@ -147,12 +159,12 @@ class _ViewAllProductState extends State<ViewAllProduct> {
                           },
                         ),
                       ],
-                    );
-                  }
-                },
-              ),
-            ],
-          ),
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
         ),
       ),
     );
