@@ -10,7 +10,13 @@ class AuthRepository {
     String password,
   ) async {
     try {
-      final resp = await _dio.post(ApiEndPoint.auth(AuthEndpoint.register));
+      final resp = await _dio.post(
+        ApiEndPoint.auth(AuthEndpoint.register),
+        data: {
+          "username": name,
+          "password": password,
+        },
+      );
       final token = resp.data?["token"];
       return token;
     } on DioError {
@@ -23,7 +29,13 @@ class AuthRepository {
     String password,
   ) async {
     try {
-      final resp = await _dio.post(ApiEndPoint.auth(AuthEndpoint.login));
+      final resp = await _dio.post(
+        ApiEndPoint.auth(AuthEndpoint.login),
+        data: {
+          "username": name,
+          "password": password,
+        },
+      );
       final token = resp.data?["token"];
 
       return token;

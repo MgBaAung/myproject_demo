@@ -24,7 +24,7 @@ class AppStartupScreen extends StatelessWidget {
       if (authController.auth.value) {
         return const ViewAllProduct();
       } else if (!authController.auth.value) {
-        return LoginScreen();
+        return const LoginScreen();
       } else {
         return const LottieAnimationLoader();
       }

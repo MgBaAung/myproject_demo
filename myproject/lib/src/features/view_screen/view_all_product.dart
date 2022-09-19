@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:myproject/src/features/auth/controller/auth_controller.dart';
 
 class ViewAllProduct extends StatelessWidget {
   const ViewAllProduct({super.key});
@@ -8,7 +10,14 @@ class ViewAllProduct extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
-          actions: const []),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  final authcontroller = Get.find<AuthController>();
+                  authcontroller.logout();
+                },
+                icon: const Icon(Icons.logout))
+          ]),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
