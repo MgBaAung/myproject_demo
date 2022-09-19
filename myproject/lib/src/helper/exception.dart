@@ -26,7 +26,7 @@ class DioException implements Exception {
         break;
     }
   }
-  var message;
+  late String message;
 
   String _handleError(int? statusCode) {
     switch (statusCode) {

@@ -1,10 +1,7 @@
-import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 //config
-import 'package:myproject/src/config/routes/app_router.dart';
-import 'package:myproject/src/config/routes/routes.dart';
+import 'package:myproject/src/features/app_startup/app_startup_screen.dart';
 
 //constants
 import 'src/helper/constants/app_color.dart';
@@ -17,29 +14,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     const title = 'Assignment';
     const showDebugBanner = false;
-    final platformIsIOS = Platform.isIOS;
-    final app = platformIsIOS
-        ? Theme(
-            data: AppThemes.mainTheme,
-            child: CupertinoApp(
-              title: title,
-              debugShowCheckedModeBanner: showDebugBanner,
-              initialRoute: Routes.initialRoute,
-              color: AppColors.primaryColor,
-              onGenerateRoute: AppRouter.generateRoute,
-              navigatorKey: AppRouter.navigatorKey,
-            ),
-          )
-        : MaterialApp(
-            title: title,
-            //navigatorObservers: navigatorObservers,
-            debugShowCheckedModeBanner: showDebugBanner,
-            color: AppColors.primaryColor,
-            theme: AppThemes.mainTheme,
-            initialRoute: Routes.initialRoute,
-            onGenerateRoute: AppRouter.generateRoute,
-            navigatorKey: AppRouter.navigatorKey,
-          );
+    final app = MaterialApp(
+      title: title,
+      debugShowCheckedModeBanner: showDebugBanner,
+      color: AppColors.primaryColor,
+      theme: AppThemes.mainTheme,
+      home: AppStartupScreen(),
+    );
     return app;
   }
 }

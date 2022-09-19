@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myproject/src/helper/buildcontext_extension.dart';
+import 'package:myproject/src/helper/constants/context_extension.dart';
 
 import '../controller/auth_controller.dart';
 
@@ -12,13 +12,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // Create a global key that uniquely identifies the Form widget
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final passwordController = TextEditingController();
   final authController = Get.find<AuthController>();
 
-  //use to change password behavior
   bool _obscured = true;
 
   @override
@@ -80,36 +78,38 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 79,
               ),
-              Obx(() {
-                final isloading = authController.isLoading.value;
-                final errorMsg = authController.errorMessage.value;
-                if (mounted && errorMsg.isNotEmpty) {
-                  context.showError(errorMsg);
-                }
-                return MaterialButton(
-                  color: Colors.blue,
-                  onPressed: isloading
-                      ? () {}
-                      : () {
-                          if (_formKey.currentState!.validate()) {
-                            authController.login(
-                              name: nameController.text,
-                              password: passwordController.text,
-                            );
-                          }
-                        },
-                  child: isloading
-                      ? const Center(
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
+              Obx(
+                () {
+                  final isloading = authController.isLoading.value;
+                  final errorMsg = authController.errorMessage.value;
+                  if (mounted && errorMsg.isNotEmpty) {
+                    context.showErrorSnackbar(errorMsg);
+                  }
+                  return MaterialButton(
+                    color: Colors.blue,
+                    onPressed: isloading
+                        ? () {}
+                        : () {
+                            if (_formKey.currentState!.validate()) {
+                              authController.login(
+                                name: nameController.text,
+                                password: passwordController.text,
+                              );
+                            }
+                          },
+                    child: isloading
+                        ? const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                        )
-                      : const Text('Submit'),
-                );
-              }),
+                          )
+                        : const Text('Submit'),
+                  );
+                },
+              ),
             ],
           ),
         ),
