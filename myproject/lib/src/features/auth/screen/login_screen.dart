@@ -79,12 +79,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 50.h,
                   ),
-                  Text("Password",
-                      style: TextStyle(
-                        color: AppColors.labelTextColor,
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w400,
-                      )),
+                  Text(
+                    "Password",
+                    style: TextStyle(
+                      color: AppColors.labelTextColor,
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
                   TextFormField(
                     obscureText: _obscured,
                     controller: passwordController,
