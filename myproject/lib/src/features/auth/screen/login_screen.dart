@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:myproject/src/helper/buildcontext_extension.dart';
+
+import '../controller/auth_controller.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,6 +14,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   // Create a global key that uniquely identifies the Form widget
   final _formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
+  final passwordController = TextEditingController();
+  final authController = Get.find<AuthController>();
 
   //use to change password behavior
   bool _obscured = true;
@@ -25,27 +32,37 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text('Welcom!'),
+              const Text('Welcome!'),
               const SizedBox(
                 height: 61,
               ),
               TextFormField(
                 autofocus: true,
+                controller: nameController,
                 decoration: const InputDecoration(
                   hintText: 'Enter Email',
                   labelText: 'Email',
                 ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter email';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(
                 height: 50,
               ),
               TextFormField(
                 obscureText: _obscured,
+                controller: passwordController,
                 decoration: InputDecoration(
                   label: const Text('Password'),
                   suffixIcon: IconButton(
                     onPressed: () {
-                      _obscured = !_obscured;
+                      setState(() {
+                        _obscured = !_obscured;
+                      });
                     },
                     icon: Icon(
                       _obscured ? Icons.visibility : Icons.visibility_off,
@@ -55,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Please Enter Password';
+                    return 'Please enter password';
                   }
                   return null;
                 },
@@ -63,11 +80,36 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 79,
               ),
-              MaterialButton(
-                color: Colors.blue,
-                onPressed: () {},
-                child: const Text('Submit'),
-              ),
+              Obx(() {
+                final isloading = authController.isLoading.value;
+                final errorMsg = authController.errorMessage.value;
+                if (mounted && errorMsg.isNotEmpty) {
+                  context.showError(errorMsg);
+                }
+                return MaterialButton(
+                  color: Colors.blue,
+                  onPressed: isloading
+                      ? () {}
+                      : () {
+                          if (_formKey.currentState!.validate()) {
+                            authController.login(
+                              name: nameController.text,
+                              password: passwordController.text,
+                            );
+                          }
+                        },
+                  child: isloading
+                      ? const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      : const Text('Submit'),
+                );
+              }),
             ],
           ),
         ),
