@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-//lottie
 import 'package:lottie/lottie.dart';
 import 'package:myproject/src/features/auth/screen/login_screen.dart';
 import 'package:myproject/src/features/view_screen/view_all_product.dart';
@@ -20,15 +19,17 @@ class AppStartupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      if (authController.auth.value) {
-        return const ViewAllProduct();
-      } else if (!authController.auth.value) {
-        return const LoginScreen();
-      } else {
-        return const LottieAnimationLoader();
-      }
-    });
+    return Obx(
+      () {
+        if (authController.auth.value) {
+          return const ViewAllProduct();
+        } else if (!authController.auth.value) {
+          return const LoginScreen();
+        } else {
+          return const LottieAnimationLoader();
+        }
+      },
+    );
   }
 }
 
