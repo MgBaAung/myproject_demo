@@ -17,7 +17,9 @@ class ApiEndPoint {
     }
   }
 
+  static String productListUrl = "$baseUrl/api/products";
 
+  static String productDetail(int id) => "$baseUrl/api/products/$id";
 }
 
 /// A collection of endpoints used for authentication purposes.
