@@ -8,9 +8,16 @@ class AppColors {
 
   /// The main purplish color used for theming the app.
   static Color primaryColor = HexColor.fromHex("#6962E7");
+
+  static Color secondaryColor = HexColor.fromHex("#F1EFF6");
+
+  static Color middleColor = HexColor.fromHex("#A9A6EA");
+
   static MaterialColor primarySwatch = generateMaterialColor(primaryColor);
 
   static Color hintTextColor = HexColor.fromHex("#B2B2CE");
+
+  static Color productNameTextColor = HexColor.fromHex("#27214D");
 
   static Color labelTextColor = HexColor.fromHex("#5A596A");
 

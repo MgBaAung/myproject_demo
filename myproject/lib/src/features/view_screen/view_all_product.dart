@@ -1,136 +1,233 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:myproject/src/features/auth/controller/auth_controller.dart';
+import 'package:myproject/src/features/view_screen/controllers/product_list_controller.dart';
+import 'package:myproject/src/features/view_screen/model/product_list_response.dart';
+import 'package:myproject/src/features/view_screen/repository/product_repository.dart';
+import 'package:myproject/src/helper/constants/app_assets.dart';
+import 'package:myproject/src/helper/constants/app_color.dart';
 
-class ViewAllProduct extends StatelessWidget {
+import '../auth/controller/auth_controller.dart';
+
+class ViewAllProduct extends StatefulWidget {
   const ViewAllProduct({super.key});
+
+  @override
+  State<ViewAllProduct> createState() => _ViewAllProductState();
+}
+
+class _ViewAllProductState extends State<ViewAllProduct> {
+  final productController =
+      Get.put(ProductListController(ProductRepository(Dio())));
+
+  final authcontroller = Get.find<AuthController>();
+
+  @override
+  void initState() {
+    super.initState();
+    productController.getProducts();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+          leading: IconButton(
+            onPressed: () {},
+            icon: Image.asset(AppAssets.menuIcon),
+          ),
           actions: [
             IconButton(
-                onPressed: () {
-                  final authcontroller = Get.find<AuthController>();
-                  authcontroller.logout();
-                },
-                icon: const Icon(Icons.logout))
+              onPressed: () {
+                authcontroller.logout();
+              },
+              icon: Image.asset(
+                AppAssets.cartIcon,
+                color: Colors.black,
+              ),
+            )
           ]),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const Text(
-                  'Hello Kanate, What fruit salad combo do you want today'),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Hello Kanate, ',
+                        style: TextStyle(
+                            fontSize: 16.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      TextSpan(
+                        text: 'What fruit salad combo do you want today',
+                        style: TextStyle(
+                            fontSize: 16.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               Container(
-                color: const Color.fromARGB(255, 197, 180, 128),
+                height: 41.h,
+                color: AppColors.secondaryColor,
                 child: Row(
-                  children: const [
-                    Icon(Icons.search),
-                    Text('Search fruit salad combos'),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.search,
+                        color: AppColors.middleColor,
+                      ),
+                    ),
+                    Text(
+                      'Search fruit salad combos',
+                      style: TextStyle(color: AppColors.hintTextColor),
+                    ),
                   ],
                 ),
               ),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text('Recommended Combo'),
-                  SizedBox(
-                    child: GridView.count(
-                      childAspectRatio: .8,
-                      crossAxisCount: 2,
-                      shrinkWrap: true,
-                      //  primary: false,
-                      //padding: const EdgeInsets.all(16),
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 11,
-                            vertical: 14,
-                          ),
-                          color: Colors.blue,
-                          child: SizedBox(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const InkWell(
-                                    child: Align(
-                                        alignment: Alignment.topCenter,
-                                        child: Icon(Icons.favorite_outline))),
-                                Container(
-                                  child: Image.asset(
-                                    'assets/images/image.jpg',
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Container(
-                                  child: const Text('Heoyn product'),
-                                ),
-                                Container(
-                                  child: Row(
-                                    children: const [Text('100000'), Text('+')],
-                                  ),
-                                )
-                              ],
+              Obx(
+                () {
+                  final errorMessage = productController.errorMessage.value;
+                  final isloading = productController.isLoading.value;
+                  final productList = productController.productList.value;
+
+                  if (errorMessage.isNotEmpty) {
+                    return Center(
+                      child: Text(errorMessage),
+                    );
+                  } else if (isloading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (productList.isEmpty) {
+                    return const Center(
+                      child: Text("No Proucts!"),
+                    );
+                  } else {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 19.0.h),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Recommended Combo',
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 11,
-                            vertical: 14,
-                          ),
-                          color: Colors.blue,
-                          child: SizedBox(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                const InkWell(
-                                    child: Align(
-                                        alignment: Alignment.topRight,
-                                        child: Icon(Icons.favorite_outline))),
-                                Container(
-                                  child: Image.asset(
-                                    'assets/images/image.jpg',
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Container(
-                                  child: const Text('Heoyn product'),
-                                ),
-                                Container(
-                                  child: Row(
-                                    // crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text('100000'),
-                                      Container(
-                                          decoration: const BoxDecoration(
-                                              color: Color.fromARGB(
-                                                  255, 146, 75, 70),
-                                              shape: BoxShape.circle),
-                                          child: const Icon(Icons.add))
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 118 / 164,
+                                  mainAxisSpacing: 16.w,
+                                  crossAxisSpacing: 16.w),
+                          itemCount: productList.length,
+                          itemBuilder: (context, index) {
+                            return ProductBoxWidget(
+                              product: productList[index],
+                            );
+                          },
                         ),
                       ],
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ProductBoxWidget extends StatelessWidget {
+  const ProductBoxWidget({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
+
+  final Product product;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      color: AppColors.secondaryColor,
+      child: SizedBox(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: product.image!,
+                    fit: BoxFit.cover,
+                    errorWidget: (_, __, ___) => Container(),
+                  ),
+                  Positioned(
+                    right: 9,
+                    top: 9,
+                    child: Icon(
+                      Icons.favorite_border,
+                      color: AppColors.middleColor,
                     ),
                   )
                 ],
-              )
-            ],
-          ),
+              ),
+            ),
+            SizedBox(height: 9.h),
+            Text(
+              'Heoyn product',
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: AppColors.productNameTextColor,
+              ),
+            ),
+            SizedBox(height: 9.h),
+            Row(
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${product.amount}',
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: Colors.black,
+                  ),
+                ),
+                Container(
+                  width: 24.w,
+                  height: 24.w,
+                  decoration: BoxDecoration(
+                    color: AppColors.middleColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.add),
+                )
+              ],
+            ),
+          ],
         ),
       ),
     );

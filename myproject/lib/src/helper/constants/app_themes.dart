@@ -16,9 +16,11 @@ class AppThemes {
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
     ),
+    scaffoldBackgroundColor: Colors.white,
     appBarTheme: const AppBarTheme(
       centerTitle: true,
       elevation: 0,
+      backgroundColor: Colors.white,
       iconTheme: IconThemeData(color: Colors.black),
     ),
   );
