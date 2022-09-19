@@ -17,11 +17,6 @@ class ApiEndPoint {
     }
   }
 
-  /// Returns the path for a user [endpoint].
-  ///
-  /// Specify student [erp] to get the path for a specific student.
-  ///
-  /// Specify secondary [extendedResourceId] to get the path for a specific secondary resource.
 
 }
 
