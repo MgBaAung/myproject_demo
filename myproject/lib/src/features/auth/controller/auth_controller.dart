@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:myproject/src/features/auth/repository/auth_repository.dart';
-import 'package:myproject/src/helper/exception.dart';
 import 'package:myproject/src/helper/sharepref.dart';
+
+import '../../../helper/exception.dart';
 
 class AuthController extends GetxController {
   final AuthRepository _authRepository;
