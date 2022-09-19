@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +9,13 @@ import 'package:myproject/src/config/routes/routes.dart';
 //constants
 import 'src/helper/constants/app_color.dart';
 import 'src/helper/constants/app_themes.dart';
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-     const title = 'Assignment';
+    const title = 'Assignment';
     const showDebugBanner = false;
     final platformIsIOS = Platform.isIOS;
     final app = platformIsIOS

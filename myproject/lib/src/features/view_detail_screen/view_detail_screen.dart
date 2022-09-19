@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class ViewDetailScreen extends StatefulWidget {
@@ -8,8 +7,8 @@ class ViewDetailScreen extends StatefulWidget {
   State<ViewDetailScreen> createState() => _ViewDetailScreenState();
 }
 
-class _ViewDetailScreenState extends State<ViewDetailScreen> with SingleTickerProviderStateMixin{
-
+class _ViewDetailScreenState extends State<ViewDetailScreen>
+    with SingleTickerProviderStateMixin {
   // final bodyGlobalKey = GlobalKey();
   // final List<Widget> myTabs = [
   //   Tab(text: 'Description'),
@@ -87,7 +86,7 @@ class _ViewDetailScreenState extends State<ViewDetailScreen> with SingleTickerPr
   //             child: Padding(
   //               padding: EdgeInsets.symmetric(vertical: 32,
   //               horizontal: 16,
-                
+
   //               ),
   //               child: Row(
   //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -110,7 +109,7 @@ class _ViewDetailScreenState extends State<ViewDetailScreen> with SingleTickerPr
   //           ),
   //           SliverToBoxAdapter(
   //             child: TabBar(
-                
+
   //               controller: _tabController,
   //               labelColor: Colors.redAccent,
   //               isScrollable: true,
@@ -129,15 +128,14 @@ class _ViewDetailScreenState extends State<ViewDetailScreen> with SingleTickerPr
   //       ),
 
   //     ),
- 
-      
+
   //   );
   // }
 
   late TabController _tabController;
   @override
   void initState() {
-    _tabController = new TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -149,41 +147,39 @@ class _ViewDetailScreenState extends State<ViewDetailScreen> with SingleTickerPr
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              height: MediaQuery.of(context).size.height /3,
-              child: Center(child: Text("Profile"),),
+              height: MediaQuery.of(context).size.height / 3,
               color: Colors.blue,
-            ),
-                       Container(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 32,
-                horizontal: 16,
-                
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                  Text('Womman Shoe'),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    color: Colors.blue,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('-'),
-                        Text('1'),
-                        Text('+')
-                      ],
-                    ),
-                  )
-                ]),
+              child: const Center(
+                child: Text("Profile"),
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 32,
+                  horizontal: 16,
+                ),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Womman Shoe'),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        color: Colors.blue,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [Text('-'), Text('1'), Text('+')],
+                        ),
+                      )
+                    ]),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TabBar(
                 unselectedLabelColor: Colors.black,
                 labelColor: Colors.red,
-                tabs: [
+                tabs: const [
                   Tab(
                     child: Text('Description'),
                   ),
@@ -197,37 +193,35 @@ class _ViewDetailScreenState extends State<ViewDetailScreen> with SingleTickerPr
             ),
             Expanded(
               child: Padding(
-                padding:const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: TabBarView(
-                  children: [Text('people'), Text('Person')],
                   controller: _tabController,
+                  children: const [Text('people'), Text('Person')],
                 ),
               ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar:  Container(
-                    height: 60,
-                    decoration:const BoxDecoration(
-                    color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(5),
-                        topRight: Radius.circular(5)
-                      )
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 21,horizontal: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(child: Text('10000'),),
-                        Container(child: Text('Add to Cart'),),
-                        
-                      ],
-                    ),
-                  ),
+      bottomNavigationBar: Container(
+        height: 60,
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(5), topRight: Radius.circular(5))),
+        padding: const EdgeInsets.symmetric(vertical: 21, horizontal: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              child: const Text('10000'),
+            ),
+            Container(
+              child: const Text('Add to Cart'),
+            ),
+          ],
+        ),
+      ),
     );
-  
-}
-
+  }
 }

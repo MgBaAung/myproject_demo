@@ -13,4 +13,9 @@ class SharePref {
     final token = shp.getString(tokenKey);
     return token;
   }
+
+  static Future<void> clear() async {
+    final shp = await SharedPreferences.getInstance();
+    shp.clear();
+  }
 }

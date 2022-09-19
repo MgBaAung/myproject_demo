@@ -87,7 +87,7 @@ class Routes {
 
   static final Map<String, RouteBuilder> _routesMap = {
     // AuthWidgetBuilderRoute: (_) => const AuthWidgetBuilder(),
-    AppStartupScreenRoute: (_) => const AppStartupScreen(),
+    AppStartupScreenRoute: (_) =>  AppStartupScreen(),
     // HomeScreenRoute: (_) => const HomeScreen(),
     // LoginScreenRoute: (_) => const LoginScreen(),
     // ProfileScreenRoute: (_) => const ProfileScreen(),

@@ -1,9 +1,6 @@
-
-
-
 import '../../helper/typedefs.dart';
 
-class ResponseModel<T>{
+class ResponseModel<T> {
   // ignore: library_private_types_in_public_api
   final _ResponseHeadersModel headers;
   final T body;
@@ -14,26 +11,21 @@ class ResponseModel<T>{
   });
 }
 
-
-class _ResponseHeadersModel{
+class _ResponseHeadersModel {
   final String error;
   final String message;
   final String? code;
 
-  _ResponseHeadersModel(
-   {
-    required this.error, 
-    required this.message, 
+  _ResponseHeadersModel({
+    required this.error,
+    required this.message,
     this.code,
-    
-   }
-  );
+  });
 
-  factory _ResponseHeadersModel.fromJson(JSON json){
+  factory _ResponseHeadersModel.fromJson(JSON json) {
     return _ResponseHeadersModel(
-      error: json['error'] as String, 
-      message: json['message'] as String,
-      code: json['code'] as String?
-    );
+        error: json['error'] as String,
+        message: json['message'] as String,
+        code: json['code'] as String?);
   }
 }

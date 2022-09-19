@@ -1,19 +1,34 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 //lottie
 import 'package:lottie/lottie.dart';
 import 'package:myproject/src/features/app_startup/welcome_screen.dart';
-import 'package:myproject/src/features/auth/screen/register_screen.dart';
+import 'package:myproject/src/features/auth/screen/login_screen.dart';
+import 'package:myproject/src/features/view_screen/view_all_product.dart';
 import 'package:myproject/src/helper/constants/app_utils.dart';
 import 'package:myproject/src/helper/constants/context_extension.dart';
 import 'package:myproject/src/helper/constants/lottie_assets.dart';
 
+import '../auth/controller/auth_controller.dart';
+import '../auth/repository/auth_repository.dart';
+
 class AppStartupScreen extends StatelessWidget {
-  const AppStartupScreen({super.key});
+  AppStartupScreen({super.key});
+  final authController = Get.put(AuthController(AuthRepository(Dio())));
 
   @override
   Widget build(BuildContext context) {
-    return const WelcomeScreen();
+    return Obx(() {
+      if (authController.auth.value) {
+        return const ViewAllProduct();
+      } else if (!authController.auth.value) {
+        return LoginScreen();
+      } else {
+        return const LottieAnimationLoader();
+      }
+    });
   }
 }
 
